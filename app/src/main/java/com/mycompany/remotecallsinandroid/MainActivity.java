@@ -1,5 +1,7 @@
 package com.mycompany.remotecallsinandroid;
 
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +15,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.HTTP;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -21,14 +24,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.util.concurrent.ExecutionException;
 
 
 public class MainActivity extends ActionBarActivity {
-    String URL = "https://anujapp.herokuapp.com/api";
-    JSONParser jsonParser;
-    static InputStream is = null;
-    static JSONObject json = null;
-    static String outPut = "";
+//    String URL = "https://anujapp.herokuapp.com/api";
+//    JSONParser jsonParser;
+//    static InputStream is = null;
+//    static JSONObject json = null;
+//    static String outPut = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,10 +60,32 @@ public class MainActivity extends ActionBarActivity {
         return true;
     }
 
+
     public void getJSONFromUrl(View view) {
+
+//this will pop up a list of app's you want to use...
+//        Intent sendIntent = new Intent();
+//        sendIntent.setAction(Intent.ACTION_SEND);
+//        sendIntent.putExtra(Intent.EXTRA_TEXT, "hello");
+//        sendIntent.setType(HTTP.PLAIN_TEXT_TYPE); // "text/plain" MIME type
+//
+//// Verify that the intent will resolve to an activity
+//        if (sendIntent.resolveActivity(getPackageManager()) != null) {
+//            startActivity(sendIntent);
+//        }
+
+
         EditText view1 = (EditText)findViewById(R.id.api_address);
         ASYNCTask task = new ASYNCTask();
-        task.execute(view1.getText().toString());
+
+        AsyncTask task1 = task.execute(view1.getText().toString());
+        try {
+            System.out.println(task1.get().equals("[{\"id\":1,\"type_of_product\":\"Drinks\",\"name\":\"Pepsi\",\"company\":\"Cocacola\",\"price\":\"10000\",\"created_at\":\"2015-06-10T07:41:01.585Z\",\"updated_at\":\"2015-06-10T07:41:01.585Z\"}]"));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

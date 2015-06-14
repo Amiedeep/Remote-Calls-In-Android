@@ -33,6 +33,7 @@ public class ASYNCTask extends AsyncTask<String, Void, String> {
     public String doInBackground(String... url) {
 
         // Making the HTTP request
+
         try {
 
             DefaultHttpClient httpClient = new DefaultHttpClient();
