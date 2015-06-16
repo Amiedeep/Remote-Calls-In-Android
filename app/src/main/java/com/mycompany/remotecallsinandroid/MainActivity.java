@@ -1,5 +1,6 @@
 package com.mycompany.remotecallsinandroid;
 
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +14,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -21,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.util.concurrent.ExecutionException;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -56,10 +59,20 @@ public class MainActivity extends ActionBarActivity {
         return true;
     }
 
-    public void getJSONFromUrl(View view) {
+    public void getJSONFromUrl(View view) throws ExecutionException, InterruptedException, JSONException {
         EditText view1 = (EditText)findViewById(R.id.api_address);
         ASYNCTask task = new ASYNCTask();
-        task.execute(view1.getText().toString());
+
+        AsyncTask task1 = task.execute(view1.getText().toString());
+        Object str = task1.get();
+
+        System.out.println(str);
+        System.out.println();
+        JSONArray array = new JSONArray((String)str);
+
+        JSONObject obj = array.getJSONObject(0);
+        System.out.println(obj);
+        System.out.println();
     }
 
     @Override
