@@ -66,13 +66,9 @@ public class MainActivity extends ActionBarActivity {
         AsyncTask task1 = task.execute(view1.getText().toString());
         Object str = task1.get();
 
-        System.out.println(str);
-        System.out.println();
         JSONArray array = new JSONArray((String)str);
 
         JSONObject obj = array.getJSONObject(0);
-        System.out.println(obj);
-        System.out.println();
     }
 
     @Override
